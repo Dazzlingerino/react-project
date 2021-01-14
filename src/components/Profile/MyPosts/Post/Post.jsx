@@ -6,7 +6,7 @@ const Post = (props) => {
             <img src='https://m.belfasttelegraph.co.uk/incoming/52372/37700735.ece/AUTOCROP/w300/0347000-_Read-Only_.jpg'></img>
             { props.message}
             <div>
-                <span>Like {props.like}</span>
+                <span>Like {props.likesCount}</span>
             </div>
         </div>
     )
