@@ -1,7 +1,21 @@
 .nav {
-  grid-area: n;
-  background-color: rgb(18, 189, 18);
+    grid-area: n;
+    background-color: #0FA63C;
+    padding: 10px;
 }
-.item {
-  color: white;
+
+.item a {
+    color: white;
+    text-decoration: none;
+    font-size: 150%;
+    margin: 20px;
+}
+.item a#settings{
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.item a.activeLink {
+    color: blue;
+    border-bottom:1px solid;
 }

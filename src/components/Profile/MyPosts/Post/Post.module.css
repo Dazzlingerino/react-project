@@ -1,7 +1,15 @@
 .item {
-  color: rgb(172, 255, 47);
+    color: #0AF24E;
+
 }
+
 .item img {
-  width: 40px;
-  border-radius: 30px;
+    width: 80px;
+    height: 60px;
+    border-radius: 30px;
 }
+
+span {
+    padding: 7px;
+}
+

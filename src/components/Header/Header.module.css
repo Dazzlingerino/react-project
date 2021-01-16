@@ -1,11 +1,12 @@
 .header {
-  grid-area: h;
-  background-color: cyan;
+    grid-area: h;
+    background-color: #F2A63A;
 }
 
 .item {
-  display: block;
-  margin-left: 1em;
-  margin-right: auto;
-  width: 4.8%;
+    display: block;
+    padding: 1px;
+    margin-left: 1em;
+    margin-right: auto;
+    width: 4.8%;
 }
