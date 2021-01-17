@@ -4,7 +4,8 @@
 }
 
 .item img {
-    width: 80px;
+    object-fit: cover;
+    width: 65px;
     height: 60px;
     border-radius: 30px;
 }

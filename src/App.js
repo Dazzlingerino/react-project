@@ -12,10 +12,11 @@ const App = (props) => {
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
-                <Navbar/>
+                <Navbar state={props.state.NavBarPage}/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' component={Dialogs}/>
-                    <Route path='/profile' component={Profile}/>
+                    {/*<Route path='/dialogs' component={Dialogs }/>*/}
+                    <Route path='/dialogs' render={() => <Dialogs state={props.state.DialogsPage}/>}/>
+                    <Route path='/profile' render={() => <Profile state={props.state.ProfilePage}/>}/>
                     <Route path='/news'/>
                     <Route path='/music'/>
                     <Route path='/settings'/>

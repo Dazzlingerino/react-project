@@ -1,0 +1,26 @@
+.dialog {
+    color: #0AF24E;
+
+}
+
+.dialog img {
+    object-fit: cover;
+    height: 60px;
+    width: 50px;
+    border-radius: 30px;
+}
+.dialog{
+    padding: 10px;
+
+}
+
+.dialog a.active {
+    color: gold;
+    text-decoration: none;
+}
+
+.dialog a {
+    color: white;
+    text-decoration: none;
+}
+
