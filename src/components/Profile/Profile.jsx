@@ -9,7 +9,7 @@ const Profile = (props) => {
         <div>
             <BackGroundPhoto/>
             <ProfileInfo/>
-            <MyPosts posts={props.state.posts}/>
+            <MyPosts posts={props.state.posts}  />
         </div>
     )
 }

@@ -1,4 +1,7 @@
+import {reRenderAllTree} from "../render";
+
 let state = {
+
     ProfilePage: {
         posts: [
             {id: 1, message: 'Hi! How are you?', likeCount: 30},
@@ -27,7 +30,24 @@ let state = {
             {id: 1, message: "Hi"},
             {id: 2, message: "Yo"},
             {id: 3, message: "Hey"}
-        ]
+        ],
+        newMessage : ''
     }
+
+}
+
+window.state = state;
+
+export let addMessage = () => {
+    let newMessage = {
+        id:4, message:state.DialogsPage.newMessage
+    }
+    state.DialogsPage.messagesData.push(newMessage)
+    state.DialogsPage.newMessage ='';
+    reRenderAllTree(state);
+}
+export let updateNewMessage = (text) => {
+    state.DialogsPage.newMessage = text
+    reRenderAllTree(state);
 }
 export default state;
