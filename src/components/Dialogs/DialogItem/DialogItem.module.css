@@ -1,7 +1,4 @@
-.dialog {
-    color: #0AF24E;
 
-}
 
 .dialog img {
     object-fit: cover;
@@ -20,7 +17,7 @@
 }
 
 .dialog a {
-    color: white;
+    color: #47B4CC;
     text-decoration: none;
 }
 

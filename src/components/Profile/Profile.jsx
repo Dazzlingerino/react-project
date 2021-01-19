@@ -2,14 +2,17 @@ import React from 'react';
 import ProfileInfo from './ProfileInfo/ProfileInfo.jsx';
 import BackGroundPhoto from './BackGroundPhoto/BGPhoto.jsx';
 import MyPosts from './MyPosts/MyPosts.jsx';
-import classes from './Profile.module.css'
+import style from './Profile.module.css'
+import bgPhoto from './bananaBG.png';
 
 const Profile = (props) => {
     return (
-        <div>
+        <div className={style.profile}>
             <BackGroundPhoto/>
             <ProfileInfo/>
-            <MyPosts posts={props.state.posts}  />
+            <MyPosts  postAction={props.postsActions}
+                     state={props.state.ProfilePage}/>
+
         </div>
     )
 }

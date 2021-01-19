@@ -1,6 +1,6 @@
 .nav {
     grid-area: n;
-    background-color: #0FA63C;
+    background-image: linear-gradient(to right,#44EBE7 90%,#F09041 );
     padding: 10px;
 }
 
