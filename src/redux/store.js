@@ -1,7 +1,13 @@
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
+import navbarReducer from "./navbarReducer";
+
+
+
 let store = {
     _state: {
         ProfilePage: {
-            newPost: 'fsaf',
+            newPost: 'Write something here..',
             posts: [
                 {id: 1, message: 'Hi! How are you?', likeCount: 30},
                 {id: 2, message: 'It\'s my first post', likeCount: 20},
@@ -66,7 +72,7 @@ let store = {
                 {id: 2, message: "Yo"},
                 {id: 3, message: "Hey"}
             ],
-            newMessage: ''
+            newMessage: 'Write something here..'
         }
     },
     _callSubscriber() {
@@ -104,27 +110,11 @@ let store = {
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newMessage = {
-                id: 5, message: this._state.ProfilePage.newPost, likeCount: 0
-            }
-            this._state.ProfilePage.posts.push(newMessage)
-            this._state.ProfilePage.newPost = '';
-            this._callSubscriber(this._state);
-        } else if (action.type === 'ADD-MESSAGE') {
-            let newMessage = {
-                id: 4, message: this._state.DialogsPage.newMessage
-            }
-            this._state.DialogsPage.messagesData.push(newMessage)
-            this._state.DialogsPage.newMessage = '';
-            this._callSubscriber(this._state);
-        }else if (action.type === 'UPDATE-POST-MESSAGE'){
-            this._state.ProfilePage.newPost = action.text
-            this._callSubscriber(this._state);
-        } else if (action.type === 'UPDATE-NEW-MESSAGE'){
-            this._state.DialogsPage.newMessage = action.text
-            this._callSubscriber(this._state);
-        }
+        this._state.ProfilePage= profileReducer(this._state.ProfilePage,action)
+        this._state.DialogsPage= dialogsReducer(this._state.DialogsPage,action)
+        this._state.NavBarPage= navbarReducer(this._state.NavBarPage,action)
+        this._callSubscriber(this._state)
+    }
 }
-}
+
 export default store;

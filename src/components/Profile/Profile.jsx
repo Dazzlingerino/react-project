@@ -10,7 +10,7 @@ const Profile = (props) => {
         <div className={style.profile}>
             <BackGroundPhoto/>
             <ProfileInfo/>
-            <MyPosts  postAction={props.postsActions}
+            <MyPosts postDispatchAction={props.postsDispatchActions}
                      state={props.state.ProfilePage}/>
 
         </div>

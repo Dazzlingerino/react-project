@@ -3,20 +3,22 @@ import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
+import {ADD_MESSAGE_ACTION_CREATOR, UPDATE_NEW_MESSAGE_ACTION_CREATOR} from "../../redux/dialogsReducer";
+
 
 const Dialogs = (props) => {
     let messageElements = props.state.messagesData.map(m => (<Message message={m.message}/>))
     let dialogsElements = props.state.dialogsData.map(d => (<DialogItem name={d.name} id={d.id} imgURL={d.imgURL}/>));
     let messageArea = React.createRef();
-    let showMessage = () => props.dialogAction({type: 'ADD-MESSAGE', ok: 'ok'});
+    let onSendMessageClick = () => props.dialogDispatchAction(ADD_MESSAGE_ACTION_CREATOR());
     let onMessageChange = () => {
         let text = messageArea.current.value;
-        props.dialogAction({type: 'UPDATE-NEW-MESSAGE', text: text});
+        props.dialogDispatchAction(UPDATE_NEW_MESSAGE_ACTION_CREATOR(text));
     }
     return (
         <div className={s.dialogs}>
             <div>
-                {dialogsElements}
+               {dialogsElements}
             </div>
             <div className={s.messages}>
                 {messageElements}
@@ -26,7 +28,7 @@ const Dialogs = (props) => {
                                   cols="30" rows="2"/>
                     </div>
                     <div>
-                        <button onClick={showMessage}> Send message</button>
+                        <button onClick={onSendMessageClick}> Send message</button>
                     </div>
                 </div>
             </div>
