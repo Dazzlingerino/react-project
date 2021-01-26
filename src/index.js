@@ -4,9 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-<<<<<<< HEAD
-
-=======
 
 
 export let reRenderEntireTree = (state) => {
@@ -18,7 +15,6 @@ export let reRenderEntireTree = (state) => {
     );
 }
 reRenderEntireTree(store.getState());
->>>>>>> 7300c53f34730396228664d5b28b69cbbc46b4ce
 
 ReactDOM.render(
     <React.StrictMode>

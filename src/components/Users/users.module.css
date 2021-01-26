@@ -1,0 +1,6 @@
+.userPhoto{
+    object-fit: cover;
+    width: 65px;
+    height: 60px;
+    border-radius: 30px;
+}
