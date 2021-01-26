@@ -13,6 +13,8 @@
 
 .app-wrapper-content {
   grid-area: c;
+  margin-left: 2.5px ;
+  margin-top: 5px;
   background-color: #F09041;
   padding: 10px;
 }

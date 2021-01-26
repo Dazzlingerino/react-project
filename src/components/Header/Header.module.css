@@ -1,13 +1,12 @@
 .header {
     grid-area: h;
-
-    background-image: linear-gradient(165deg,#26FFFF 12%,#F09041 70%);
+    background-image: linear-gradient(to bottom,#26FFFF ,#F09041 75%);
 }
 
 .item {
     display: block;
     padding: 1px;
-    margin-left: 1em;
+    margin-left: 2em;
     margin-right: auto;
     width: 4.8%;
 }

@@ -4,9 +4,14 @@ import style from './MyPosts.module.css'
 
 
 const MyPosts = (props) => {
-    let postElements = props.state.posts.map(p => <Post message={p.message} likesCount={p.likeCount}/>)
+
+    let postElements = props.ProfilePage.posts.map(p => <Post message={p.message} likesCount={p.likeCount}/>)
     let postArea = React.createRef();
+<<<<<<< HEAD
+    let postMessageBody = props.ProfilePage.newPost
+=======
     let postMessageBody = props.state.newPost
+>>>>>>> 7300c53f34730396228664d5b28b69cbbc46b4ce
     let onShowPost = () => props.onShowPost();
     let onPostMessageChange1 = () => props.onPostMessageChange(postArea.current.value)
 

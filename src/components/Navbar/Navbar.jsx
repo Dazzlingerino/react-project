@@ -11,7 +11,10 @@ const Navbar = (props) => {
                 <NavLink to='/profile' activeClassName={style.activeLink}>Profile</NavLink>
             </div>
             <div className={style.item}>
-                <NavLink to='/dialogs' activeClassName={style.activeLink}>Messages</NavLink>
+                <NavLink to='/dialogs' activeClassName={style.activeLink}>Dialogs</NavLink>
+            </div>
+            <div className={style.item}>
+                <NavLink to='/users' activeClassName={style.activeLink}>Users</NavLink>
             </div>
             <div className={style.item}>
                 <NavLink to='/news' activeClassName={style.activeLink}>News</NavLink>
@@ -21,7 +24,7 @@ const Navbar = (props) => {
             </div>
             <div className={style.item} >
                 <NavLink to='/friends' id={style.friends} activeClassName={style.activeLink} >Friends</NavLink>
-                <Friends state={props.state.friends} />
+                <Friends state={props.store.getState().NavBarPage} />
             </div>
             <div className={style.item}>
                 <NavLink to='/settings' id={style.settings} activeClassName={style.activeLink}>Settings</NavLink>
