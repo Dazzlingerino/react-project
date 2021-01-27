@@ -1,6 +1,8 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_USERS_TOTAL_COUNT= 'SET_USERS_TOTAL_COUNT';
 
 let initialState = {
         users: [
@@ -12,7 +14,10 @@ let initialState = {
             followed: true, fullName: 'Valeriy B', status: 'im a dad ', location: { city:'Kiev', country:'Ukraine'}},
         {id: 4, photoURL: 'https://img.freepik.com/free-photo/handsome-business-man-posing-front-view_23-2148336822.jpg?size=626&ext=jpg&ga=GA1.2.145878890.1611360000',
             followed: false, fullName: 'Andrei T', status: 'im a biggy', location: { city:'Moscow', country:'Russia'}},*/
-    ]
+    ],
+    pageSize:5,
+    totalUsersCount: 0,
+    currentPage:2
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -42,7 +47,17 @@ const usersReducer = (state = initialState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                users: [...state.users, ...action.users]
+                users: action.users
+            }
+            case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage:action.currentPage
+            }
+            case SET_USERS_TOTAL_COUNT:
+            return {
+                ...state,
+                totalUsersCount:action.totalCount
             }
         default:
             return state;
@@ -50,6 +65,8 @@ const usersReducer = (state = initialState, action) => {
 }
 
 export const followAC = (userId) => ({type: FOLLOW, userId})
+export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
+export const setUsersTotalCountAC = (totalCount) => ({type: SET_USERS_TOTAL_COUNT, totalCount})
 export const unfollowAC = (userId) => ({type: UNFOLLOW, userId})
 export const setUsersAC = (users) => ({type: SET_USERS, users})
 
