@@ -1,6 +1,7 @@
 import React from 'react';
 import s from "./users.module.css";
 import userPhoto from "../../assets/images/user.png";
+import {NavLink} from "react-router-dom";
 
 
 const Users = (props) => {
@@ -24,27 +25,29 @@ const Users = (props) => {
             {
                 props.users.map(u => <div key={u.id}>
                     <span>
-                          <img src={u.photos.small != null ? u.photos.small : userPhoto} className={s.userPhoto}/>
-                          <span>
+                        <NavLink to={'/profile/' + u.id}>
+                            <img src={u.photos.small != null ? u.photos.small : userPhoto} className={s.userPhoto}/>
+                        </NavLink>
+                    <span>
                             <span> {u.name}</span>
                             <span>{'u.location.country'}</span>
                             <span>{'u.location.city'}</span>
                               </span>
-                            <span> {u.status}</span>
+                    <span> {u.status}</span>
 
-                        <div>
-                            {u.followed ? <button onClick={() => {
-                                    props.unfollow(u.id)
-                                }}> Unfollow </button>
-                                : <button onClick={() => {
-                                    props.follow(u.id)
-                                }}> Follow </button>}
-                        </div>
-                        </span>
+                    <div>
+                        {u.followed ? <button onClick={() => {
+                                props.unfollow(u.id)
+                            }}> Unfollow </button>
+                            : <button onClick={() => {
+                                props.follow(u.id)
+                            }}> Follow </button>}
+                    </div>
+                </span>
                 </div>)
+                }
+                </div>
+                )
             }
-        </div>
-    )
-}
 
-export default Users;
+            export default Users;

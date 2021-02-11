@@ -10,7 +10,8 @@ export default function ProfileStatus(props) {
     const changeStatus = () => 'hello'
     return (
         <div>
-            <input onClick={changeStatus}/>
+            {props.status}
+            {/*<input onClick={changeStatus}/>*/}
 
         </div>
     )

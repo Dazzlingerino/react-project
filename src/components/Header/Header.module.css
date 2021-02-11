@@ -10,3 +10,31 @@
     margin-right: auto;
     width: 4.8%;
 }
+.loginBlock {
+    position:absolute;
+    top: 0px;
+    right:180px;
+
+}
+.loginBlock a{
+    color:white;
+    text-decoration: none;
+    margin: 8px;
+    display: inline-block;
+    padding: .6em;
+    border: 1px solid white;
+    border-radius: 3px;
+    background-color: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 1.15384615;
+    text-align: center;
+    cursor: pointer;
+    user-select: none
+}
+.loginBlock a.activeLink {
+    color: blue;
+    border:1px solid;
+}
