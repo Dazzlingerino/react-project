@@ -12,7 +12,6 @@ const Profile = (props) => {
             <BackGroundPhoto/>
             <ProfileInfo profile={props.profile}/>
             <MyPostsContainer store={props.store}/>
-
         </div>
     )
 }

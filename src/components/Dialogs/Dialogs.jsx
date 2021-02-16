@@ -1,33 +1,32 @@
 import React from 'react';
 import s from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-
-
+import {Redirect} from "react-router-dom";
 
 const Dialogs = (props) => {
 
-    
     let messageElements = props.DialogsPage.messagesData.map(m => (<Message message={m.message}/>))
-    let dialogsElements = props.DialogsPage.dialogsData.map(d => (<DialogItem name={d.name} id={d.id} imgURL={d.imgURL}/>));
+    let dialogsElements = props.DialogsPage.dialogsData.map(d => (
+        <DialogItem name={d.name} id={d.id} imgURL={d.imgURL}/>));
     let newMessageBody = props.DialogsPage.newMessage
-
     let onSendMessageClick1 = () => props.onSendMessageClick();
     let onMessageChange1 = (e) => {
         let text = e.target.value;
         props.onMessageChange(text);
     }
+
+    if (!props.isAuth) return <Redirect to='/login'/>
     return (
         <div className={s.dialogs}>
             <div>
-               {dialogsElements}
+                {dialogsElements}
             </div>
             <div className={s.messages}>
                 {messageElements}
                 <div>
                     <div>
-                        <textarea onChange={onMessageChange1}  value={newMessageBody} id=""
+                        <textarea onChange={onMessageChange1} value={newMessageBody} id=""
                                   cols="30" rows="2"/>
                     </div>
                     <div>

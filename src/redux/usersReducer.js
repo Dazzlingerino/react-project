@@ -1,25 +1,20 @@
+import {usersAPI} from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_USERS_TOTAL_COUNT= 'SET_USERS_TOTAL_COUNT';
-const TOGGLE_IS_FETCHING= 'TOGGLE_IS_FETCHING';
+const SET_USERS_TOTAL_COUNT = 'SET_USERS_TOTAL_COUNT';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
 let initialState = {
-        users: [
-       /* {id: 1, photoURL: 'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg',
-            followed: true, fullName: 'Andrei K', status: 'im a boss', location: { city:'Kiev', country:'Ukraine'}},
-        {id: 2, photoURL: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9ydHJhaXR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
-            followed: false, fullName: 'Vasya k', status: 'im a boss too', location: { city:'Minsk', country:'Belarus'}},
-        {id: 3, photoURL: 'https://besthqwallpapers.com/Uploads/5-8-2018/60391/thumb2-joseph-morgan-english-actor-photoshoot-handsome-man-portrait.jpg',
-            followed: true, fullName: 'Valeriy B', status: 'im a dad ', location: { city:'Kiev', country:'Ukraine'}},
-        {id: 4, photoURL: 'https://img.freepik.com/free-photo/handsome-business-man-posing-front-view_23-2148336822.jpg?size=626&ext=jpg&ga=GA1.2.145878890.1611360000',
-            followed: false, fullName: 'Andrei T', status: 'im a biggy', location: { city:'Moscow', country:'Russia'}},*/
-    ],
-    pageSize:5,
+    users: [],
+    pageSize: 5,
     totalUsersCount: 0,
-    currentPage:1,
-    isFetching:true
+    currentPage: 1,
+    isFetching: true,
+    followingInProgress: []
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -32,14 +27,14 @@ const usersReducer = (state = initialState, action) => {
                     if (u.id === action.userId) {
                         return {...u, followed: true};
                     }
-                return u;
+                    return u;
                 })
             }
 
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map(u =>{
+                users: state.users.map(u => {
                     if (u.id === action.userId) {
                         return {...u, followed: false};
                     }
@@ -51,31 +46,78 @@ const usersReducer = (state = initialState, action) => {
                 ...state,
                 users: action.users
             }
-            case SET_CURRENT_PAGE:
+        case SET_CURRENT_PAGE:
             return {
                 ...state,
-                currentPage:action.currentPage
+                currentPage: action.currentPage
             }
-            case SET_USERS_TOTAL_COUNT:
+        case SET_USERS_TOTAL_COUNT:
             return {
                 ...state,
-                totalUsersCount:action.totalCount
+                totalUsersCount: action.totalCount
             }
-            case TOGGLE_IS_FETCHING:
+        case TOGGLE_IS_FETCHING:
             return {
                 ...state,
-                isFetching:action.isFetching
+                isFetching: action.isFetching
+            }
+        case TOGGLE_IS_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId)
             }
         default:
             return state;
     }
 }
 
-export const follow = (userId) => ({type: FOLLOW, userId})
+export const followSuccess = (userId) => ({type: FOLLOW, userId})
+export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId})
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
 export const setUsersTotalCount = (totalCount) => ({type: SET_USERS_TOTAL_COUNT, totalCount})
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const unfollow = (userId) => ({type: UNFOLLOW, userId})
+export const toggleIsFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS,isFetching,userId})
 export const setUsers = (users) => ({type: SET_USERS, users})
+
+export const getUsers = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true))
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                    dispatch(toggleIsFetching(false))
+                    dispatch(setUsers(data.items))
+                    dispatch(setUsersTotalCount(data.totalCount))
+                }
+            )
+    }
+}
+export const follow = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleIsFollowingProgress(true, userId))
+        usersAPI.follow(userId)
+            .then(response => {
+                    if (response.data.resultCode === 0) {
+                        dispatch(followSuccess(userId))
+                    }
+                    dispatch(toggleIsFollowingProgress(false, userId))
+                }
+            )
+    }
+}
+export const unfollow = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleIsFollowingProgress(true, userId))
+        usersAPI.follow(userId)
+            .then(response => {
+                    if (response.data.resultCode === 0) {
+                        dispatch(unfollowSuccess(userId))
+                    }
+                    dispatch(toggleIsFollowingProgress(false, userId))
+                }
+            )
+    }
+}
 
 export default usersReducer;

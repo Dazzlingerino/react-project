@@ -5,7 +5,7 @@ import style from './DialogItem.module.css'
 const DialogItem = (props) => {
     return (
         <div className={style.dialog}>
-            <img src={props.imgURL}></img>
+            <img src={props.imgURL} alt={'Empty'}/>
             <NavLink to={`/dialogs/${props.id}`} activeClassName={style.active}>{props.name}</NavLink>
         </div>
     )
