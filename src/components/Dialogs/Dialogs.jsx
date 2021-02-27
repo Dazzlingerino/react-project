@@ -3,20 +3,18 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Redirect} from "react-router-dom";
+import {Field, reduxForm} from "redux-form";
+import {addMessage} from "../../redux/dialogsReducer";
 
 const Dialogs = (props) => {
 
     let messageElements = props.DialogsPage.messagesData.map(m => (<Message message={m.message}/>))
     let dialogsElements = props.DialogsPage.dialogsData.map(d => (
         <DialogItem name={d.name} id={d.id} imgURL={d.imgURL}/>));
-    let newMessageBody = props.DialogsPage.newMessage
-    let onSendMessageClick1 = () => props.onSendMessageClick();
-    let onMessageChange1 = (e) => {
-        let text = e.target.value;
-        props.onMessageChange(text);
+
+    let addNewMessage = (values) => {
+        props.addMessage(values.newMessageBody)
     }
-
-
     return (
         <div className={s.dialogs}>
             <div>
@@ -24,19 +22,25 @@ const Dialogs = (props) => {
             </div>
             <div className={s.messages}>
                 {messageElements}
-                <div>
-                    <div>
-                        <textarea onChange={onMessageChange1} value={newMessageBody} id=""
-                                  cols="30" rows="2"/>
-                    </div>
-                    <div>
-                        <button onClick={onSendMessageClick1}> Send message</button>
-                    </div>
-                </div>
+                <AddMessageReduxForm onSubmit={addNewMessage}/>
             </div>
         </div>
 
     )
-
 }
+
+const AddMessageForm = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field name='newMessageBody' component='textarea' placeholder='enter your message'/>
+            </div>
+            <div>
+                <button> Send message</button>
+            </div>
+        </form>
+    )
+}
+
+const AddMessageReduxForm = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm)
 export default Dialogs;
