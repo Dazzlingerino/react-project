@@ -3,15 +3,17 @@ import Post from './Post/Post'
 import style from './MyPosts.module.css'
 import {addPost, updateNewPost} from "../../../redux/profileReducer";
 import {Field, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../utils/validators";
+import {Textarea} from "../../common/FormsControls/FormsControls";
 
 
+const maxLength10 = maxLengthCreator(10)
 
-
-function AddNewPostForm(props)  {
+function AddNewPostForm(props) {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field name='postMessageBody' component='textarea' placeholder='enter your message'/>
+                <Field name='postMessageBody' component={Textarea} validate={[required, maxLength10]}/>
             </div>
             <div>
                 <button> Add post</button>
@@ -19,7 +21,9 @@ function AddNewPostForm(props)  {
         </form>
     )
 }
+
 AddNewPostForm = reduxForm({form: "profileAddNewPostForm"})(AddNewPostForm)
+
 const MyPosts = (props) => {
 
     let postElements = props.ProfilePage.posts.map(p => <Post message={p.message} likesCount={p.likeCount}/>)

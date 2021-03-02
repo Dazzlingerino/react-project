@@ -11,13 +11,15 @@ const Header = (props) => {
                 <img src={Logo} className={style.item} alt={"empty"}/>
             </div>
             <div className={style.loginBlock}>
-                {props.isAuth ? props.login
-                    : <NavLink to={'/login'} activeClassName={style.activeLink}>Log in
-                    </NavLink>
+                {props.isAuth
+                    ? <div>{props.login}
+                        <button onClick={props.logout} activeClassName={style.activeLink}>Log out</button>
+                    </div>
+                    : <NavLink to={'/login'} activeClassName={style.activeLink}>Log in</NavLink>
                 }
             </div>
         </header>
     )
 
 }
-export default Header
+export default Header;

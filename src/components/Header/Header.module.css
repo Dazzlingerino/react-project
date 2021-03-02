@@ -12,11 +12,11 @@
 }
 .loginBlock {
     position:absolute;
-    top: 0px;
+    top: 0;
     right:180px;
 
 }
-.loginBlock a{
+.loginBlock a, button{
     color:white;
     text-decoration: none;
     margin: 8px;
@@ -34,7 +34,7 @@
     cursor: pointer;
     user-select: none
 }
-.loginBlock a.activeLink {
+.loginBlock a.activeLink, button.activeLink {
     color: blue;
     border:1px solid;
 }
