@@ -1,6 +1,7 @@
 import React from 'react';
 import {reduxForm, Field} from "redux-form";
 import {Input} from "../common/FormsControls/FormsControls";
+import s from "../common/FormsControls/FormsControl.module.css";
 import {required} from "../../utils/validators";
 import {connect} from "react-redux";
 import {login, logout} from "../../redux/authReducer";
@@ -29,6 +30,7 @@ const LoginForm = (props) => {
                        type="password"
                        placeholder="Password"/>
             </div>
+            { props.error && <div className={s.formSummaryError}> {props.error} </div>}
             <div>
                 <Field name="rememberMe" component={Input} validate={[required]} type="checkbox"/> remember me
             </div>
