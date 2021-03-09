@@ -5,6 +5,7 @@ import MyPostsContainer from './MyPosts/MyPostsContainer.jsx';
 import style from './Profile.module.css'
 import bgPhoto from './bananaBG.png';
 import ProfileStatus from "./ProfileInfo/ProfileStatus/ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileInfo/ProfileStatus/ProfileStatusWithHooks";
 
 
 const Profile = (props) => {
@@ -12,7 +13,7 @@ const Profile = (props) => {
         <div className={style.profile}>
             {/*<BackGroundPhoto/>*/}
             <ProfileInfo profile={props.profile}/>
-            <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+            <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
             <MyPostsContainer store={props.store}/>
         </div>
     )
