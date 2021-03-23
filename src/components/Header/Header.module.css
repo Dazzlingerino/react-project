@@ -1,40 +1,23 @@
-.header {
+.grow {
+    flex-grow: 1;
     grid-area: h;
-    background-image: linear-gradient(to bottom,#26FFFF ,#F09041 75%);
 }
 
-.item {
-    display: block;
-    padding: 1px;
-    margin-left: 2em;
-    margin-right: auto;
-    width: 4.8%;
-}
-.loginBlock {
-    position:absolute;
-    top: 0;
-    right:180px;
-
-}
-.loginBlock a, button{
-    color:white;
+.navlinkitem {
+    color: inherit;
+    text-transform: uppercase;
     text-decoration: none;
-    margin: 8px;
-    display: inline-block;
-    padding: .6em;
-    border: 1px solid white;
-    border-radius: 3px;
-    background-color: transparent;
-    outline: none;
-    font-family: inherit;
-    font-size: 100%;
-    font-weight: normal;
-    line-height: 1.15384615;
-    text-align: center;
-    cursor: pointer;
-    user-select: none
 }
-.loginBlock a.activeLink, button.activeLink {
-    color: blue;
-    border:1px solid;
+
+.navlinkitem:hover,
+.navlinkitem:active,
+.navlinkitem:visited {
+
+    color: white;
+    text-decoration: none;
+}
+
+/* Styling for when the link is active */
+.navlinkitem.active {
+    color: green;
 }
