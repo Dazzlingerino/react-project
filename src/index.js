@@ -6,14 +6,11 @@ import './index.css';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
+import SocialNetworkApp from "./App";
 
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    </BrowserRouter>
+    <SocialNetworkApp/>
     , document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function

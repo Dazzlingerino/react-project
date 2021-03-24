@@ -1,7 +1,4 @@
 import React from 'react';
-/*import {useState} from "react/cjs/react.production.min";*/
-
-
 export default class ProfileStatus extends React.Component {
     state = {
         editMode: false,

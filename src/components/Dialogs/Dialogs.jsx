@@ -5,7 +5,22 @@ import Message from "./Message/Message";
 import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../utils/validators";
-
+import {Button} from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
+import {makeStyles} from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            padding: theme.spacing(0),
+            marginBottom: theme.spacing(0.5),
+            marginTop: theme.spacing(0.5),
+        },
+    },
+    button: {
+        padding: theme.spacing(0.5),
+        marginBottom: theme.spacing(1),
+    },
+}));
 const Dialogs = ({DialogsPage, addMessage}) => {
 
     let messageElements = DialogsPage.messagesData.map(m => (<Message message={m.message}/>))
@@ -30,14 +45,22 @@ const Dialogs = ({DialogsPage, addMessage}) => {
 }
 const maxLength150 = maxLengthCreator(150)
 const AddMessageForm = ({handleSubmit}) => {
+    const classes = useStyles();
     return (
         <form onSubmit={handleSubmit}>
             <div>
                 <Field name='newMessageBody' component={Textarea}
                        validate={[required, maxLength150]}/>
             </div>
-            <div>
-                <button> Send message</button>
+
+            <div className={classes.root}>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                > Send Message
+                </Button>
             </div>
         </form>
     )

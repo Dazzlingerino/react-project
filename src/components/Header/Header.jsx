@@ -181,7 +181,7 @@ export default function Header({isAuth, logout, login}) {
                         <MenuIcon/>
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Material-UI
+                        Social Network
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -236,8 +236,13 @@ export default function Header({isAuth, logout, login}) {
                             <Button onClick={logout} color="inherit" activeClassName={classes.activeLink}>Log
                                 out</Button>
 
-                            : <NavLink to={'/login'} className={s.navlinkitem} activeClassName={classes.activeLink}>Log
+
+                            :
+                            <IconButton aria-label="show 4 new mails" color="inherit"><NavLink to={'/login'}
+                                                                                               className={s.navlinkitem}
+                                                                                               activeClassName={classes.activeLink}>Log
                                 in</NavLink>
+                            </IconButton>
                         }
                     </div>
                 </Toolbar>

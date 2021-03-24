@@ -10,13 +10,13 @@ const Users = ({
                    users,
                    unfollow,
                    follow,
-                   followingInProgress
+                   followingInProgress,
                }) => {
     return (
         <div>
             <Paginator currentPage={currentPage} onPageChanged={onPageChanged}
-                       totalUsersCount={totalUsersCount} pageSize={pageSize}/>
-            {console.log(users)}
+                       totalItemsCount={totalUsersCount} pageSize={pageSize} portionSize={10}/>
+            {console.log(totalUsersCount)}
             <div>
                 {users.map(u => <User user={u}
                                       unfollow={unfollow}
