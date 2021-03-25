@@ -40,6 +40,16 @@ export const profileAPI = {
             status: status
         })
     },
+    savePhoto(file) {
+        return instance.put(`profile/photo`,{
+            image: file
+        } )
+    },
+    saveProfile(profile) {
+        return instance.put(`profile/photo`,{
+            profile: profile
+        } )
+    },
 }
 
 
@@ -52,5 +62,11 @@ export const authAPI = {
     },
     logout() {
         return instance.delete(`auth/login`)
+    }
+}
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get(`security/get-captcha-url`)
     }
 }

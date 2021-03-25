@@ -31,7 +31,7 @@ class App extends React.Component {
                 <div className='app-wrapper-content'>
                     <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                     <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
+                    <Route path='/users' render={() => <UsersContainer pageTitle={"sms"}/>}/>
                     <Route path='/login' render={() => <LoginPage/>}/>
                     <Route path='/news'/>
                     <Route path='/music'/>

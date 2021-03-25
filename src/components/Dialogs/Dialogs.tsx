@@ -8,6 +8,7 @@ import {maxLengthCreator, required} from "../../utils/validators";
 import {Button} from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
 import {makeStyles} from "@material-ui/core/styles";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -21,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
     },
 }));
+
+
 const Dialogs = ({DialogsPage, addMessage}) => {
 
     let messageElements = DialogsPage.messagesData.map(m => (<Message message={m.message}/>))
