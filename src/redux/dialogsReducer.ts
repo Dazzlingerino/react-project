@@ -1,13 +1,5 @@
-const ADD_MESSAGE = 'ADD-MESSAGE';
-type dialogType = {
-    id: number
-    name: string
-    imgURL: string | null
-}
-type messageType = {
-    id: number
-    message: string
-}
+import {InferActionsTypes} from "./reduxStore";
+
 
 let initialState = {
     dialogsData: [
@@ -41,34 +33,45 @@ let initialState = {
             name: "Ne Sanya",
             imgURL: 'https://i.pinimg.com/564x/05/45/00/054500d68367d97b8854cb8ae126f67c.jpg'
         }
-    ] as Array<dialogType>,
+    ] as Array<DialogType>,
     messagesData: [
         {id: 1, message: "Hi"},
         {id: 2, message: "Yo"},
         {id: 3, message: "Hey"}
-    ] as Array<messageType>
+    ] as Array<MessageType>
 }
-export type DialogsInitialStateType = typeof initialState
 
-
-const dialogsReducer = (state = initialState, action: any): DialogsInitialStateType => {
+const dialogsReducer = (state = initialState, action: ActionsTypes): DialogsInitialStateType => {
+    debugger
     switch (action.type) {
-        case ADD_MESSAGE: {
+
+        case 'SN/DIALOGS/ADD_MESSAGE': {
             let newMessage = action.message
+
+            console.log(action.message)
             return {
                 ...state,
                 messagesData: [...state.messagesData, {id: 4, message: newMessage}]
             }
         }
-
         default:
             return state;
     }
 }
-type addMessageActionType = {
-    type: typeof ADD_MESSAGE
-    message: string
+export const actions = {
+    addMessage: (message: string) => ({type: 'SN/DIALOGS/ADD_MESSAGE', message} as const)
 }
-export const addMessage = (message: string): addMessageActionType => ({type: ADD_MESSAGE, message})
 
 export default dialogsReducer;
+
+type DialogType = {
+    id: number
+    name: string
+    imgURL: string | null
+}
+type MessageType = {
+    id: number
+    message: string
+}
+export type DialogsInitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>

@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {create} from 'react-test-renderer';
 import ProfileStatus from "./ProfileStatus";
@@ -11,4 +12,4 @@ describe('ProfileStatus component',()=>{
 })
 // { type: 'a',
 //   props: { href: 'https://www.facebook.com/' },
-//   children: [ 'Facebook' ] }
+//   children: [ 'Facebook' ] }*/

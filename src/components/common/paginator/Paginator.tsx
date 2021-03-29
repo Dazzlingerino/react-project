@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import s from "./Paginator.module.css";
+import React, {FC, useState} from 'react';
 import {Button} from "@material-ui/core";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
@@ -12,7 +11,7 @@ type PropsType = {
     portionSize:number
 }
 
-const Paginator:React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize}) => {
+const Paginator:FC<PropsType> = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize}) => {
 
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
 

@@ -1,15 +1,15 @@
-type friendType = {
+type FriendType = {
     id: number
     name: string
     imgURL: string
 }
 
 let initialState = {
-    friends: [] as Array<friendType>,
+    friends: [] as Array<FriendType>,
 }
-export type initialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
-let navbarState: initialStateType = {
+let navbarState: InitialStateType = {
     friends: [
         {
             id: 1,

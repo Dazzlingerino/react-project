@@ -1,9 +1,9 @@
-import {authAPI, securityAPI} from "../api/api";
-import {stopSubmit} from "redux-form";
-
-const SET_USER_DATA = 'network/auth/SET_USER_DATA';
-const TOGGLE_IS_FETCHING = 'network/auth/TOGGLE_IS_FETCHING';
-const GET_CAPTCHA_URL_SUCCESS = 'network/auth/GET_CAPTCHA_URL_SUCCESS'
+import {ResultCodesEnum, ResultCodeWithCaptchaEnum} from "../api/api"
+import {FormAction, stopSubmit} from "redux-form"
+import {BaseThunkType, InferActionsTypes} from "./reduxStore"
+import {Dispatch} from "redux"
+import {authAPI} from '../api/auth-api'
+import {securityAPI} from "../api/security-api"
 
 
 let initialState = {
@@ -14,21 +14,21 @@ let initialState = {
     isFetching: true,
     captchaUrl: null as string | null // if null, then captcha is not required
 }
-export type initialStateType = typeof initialState
-const authReducer = (state = initialState, action: any): initialStateType => {
+
+const authReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
 
     switch (action.type) {
-        case SET_USER_DATA:
+        case 'SN/AUTH/SET_USER_DATA':
             return {
                 ...state,
                 ...action.payload,
             }
-        case GET_CAPTCHA_URL_SUCCESS:
+        case 'SN/AUTH/GET_CAPTCHA_URL_SUCCESS':
             return {
                 ...state,
                 ...action.payload,
             }
-        case TOGGLE_IS_FETCHING:
+        case 'SN/AUTH/TOGGLE_IS_FETCHING':
             return {
                 ...state,
                 isFetching: action.isFetching
@@ -37,74 +37,62 @@ const authReducer = (state = initialState, action: any): initialStateType => {
             return state;
     }
 }
-type setAuthUserDataActionPayloadType = {
-    userId: number | null
-    email: string | null
-    login: string | null
-    isAuth: boolean
-}
-type setAuthUserDataActionType = {
-    type: typeof SET_USER_DATA
-    payload: setAuthUserDataActionPayloadType
-}
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): setAuthUserDataActionType => ({
-    type: SET_USER_DATA,
-    payload: {userId, email, login, isAuth},
-})
-type getCaptchaUrlSuccessActionType = {
-    type: typeof GET_CAPTCHA_URL_SUCCESS
-    payload: { captchaUrl: string }
-}
-export const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessActionType => ({
-    type: GET_CAPTCHA_URL_SUCCESS,
-    payload: {captchaUrl},
-})
-type toggleIsFetchingActionType = {
-    type: typeof TOGGLE_IS_FETCHING
-    isFetching: boolean
-}
-export const toggleIsFetching = (isFetching: boolean): toggleIsFetchingActionType => ({
-    type: TOGGLE_IS_FETCHING,
-    isFetching
-})
 
-export const getAuthUserData = () => async (dispatch: any) => {
-    dispatch(toggleIsFetching(true))
-    let response = await authAPI.me()
-    if (response.data.resultCode === 0) {
-        dispatch(toggleIsFetching(false))
-        let {id, email, login} = response.data.data;
-        dispatch(setAuthUserData(id, email, login, true))
+export const actions = {
+    setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
+        type: 'SN/AUTH/SET_USER_DATA',
+        payload: {userId, email, login, isAuth},
+    } as const),
+
+    getCaptchaUrlSuccess: (captchaUrl: string) => ({
+        type: 'SN/AUTH/GET_CAPTCHA_URL_SUCCESS',
+        payload: {captchaUrl},
+    } as const),
+
+    toggleIsFetching: (isFetching: boolean) => ({
+        type: 'SN/AUTH/TOGGLE_IS_FETCHING',
+        isFetching
+    } as const),
+}
+
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
+    dispatch(actions.toggleIsFetching(true))
+    let meData = await authAPI.me()
+    if (meData.resultCode === ResultCodesEnum.Success) {
+        dispatch(actions.toggleIsFetching(false))
+        let {id, email, login} = meData.data;
+        dispatch(actions.setAuthUserData(id, email, login, true))
     }
 }
+export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
+    let data = await securityAPI.getCaptchaUrl()
+    dispatch(actions.getCaptchaUrlSuccess(data.url))
+}
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: any) => {
-    let response = await authAPI.login(email, password, rememberMe)
-    if (response.data.resultCode === 0) {
-        dispatch(getAuthUserData())
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => async (dispatch) => {
+    let loginData = await authAPI.login(email, password, rememberMe, captcha)
+    if (loginData.resultCode === ResultCodesEnum.Success) {
+        await dispatch(getAuthUserData())
     } else {
-        if (response.data.resultCode === 10) {
-            dispatch(getCaptchaUrl())
+        if (loginData.resultCode === ResultCodeWithCaptchaEnum.CaptchaIsRequired) {
+            await dispatch(getCaptchaUrl())
         }
 
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
+        let message = loginData.messages.length > 0 ? loginData.messages[0] : "Some error"
         dispatch(stopSubmit('login', {_error: message}))
-
     }
 }
-export const getCaptchaUrl = () => async (dispatch: any) => {
-    let response = await securityAPI.getCaptchaUrl()
-    let captchaUrl = response.data.url
-    dispatch(getCaptchaUrlSuccess(captchaUrl))
 
-}
-
-export const logout = () => async (dispatch: any) => {
+export const logout = (): ThunkType => async (dispatch: DispatchType) => {
     let response = await authAPI.logout()
-    if (response.data.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, null, false))
+    if (response.data.resultCode === ResultCodesEnum.Success) {
+        dispatch(actions.setAuthUserData(null, null, null, false))
 
     }
 
 }
 export default authReducer;
+export type InitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>
+type DispatchType = Dispatch<ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes | FormAction>

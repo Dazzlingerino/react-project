@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{FC} from 'react';
 import {fade, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import s from './Header.module.css'
 import {Button} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -86,7 +87,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Header({isAuth, logout, login}) {
+type PropsType = {
+    login: string | null
+    isFetching: boolean
+    isAuth: boolean
+    logout: () => void
+}
+const Header:FC<PropsType> = ({isAuth, logout, login}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -94,7 +101,7 @@ export default function Header({isAuth, logout, login}) {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const handleProfileMenuOpen = (event) => {
+    const handleProfileMenuOpen = (event:any) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -107,7 +114,7 @@ export default function Header({isAuth, logout, login}) {
         handleMobileMenuClose();
     };
 
-    const handleMobileMenuOpen = (event) => {
+    const handleMobileMenuOpen = (event:any) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
@@ -233,6 +240,7 @@ export default function Header({isAuth, logout, login}) {
                     <div className={classes.sectionDesktop}>
                         {isAuth
                             ?
+                            //@ts-ignore
                             <Button onClick={logout} color="inherit" activeClassName={classes.activeLink}>Log
                                 out</Button>
 
@@ -252,3 +260,4 @@ export default function Header({isAuth, logout, login}) {
         </div>
     );
 }
+export default Header
