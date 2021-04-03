@@ -1,18 +1,13 @@
-
 .item img {
-    display: inline-block;
-    object-fit: cover;
-    height: 40px;
-    width: 35px;
-    border-radius: 30px;
+  display: inline-block;
+  object-fit: cover;
+  height: 40px;
+  width: 35px;
+  border-radius: 30px;
 }
 span.item a {
-    display: inline;
+  display: inline;
 
-    padding: 0 ;
-    margin:0;
-
+  padding: 0;
+  margin: 0;
 }
-
-
-

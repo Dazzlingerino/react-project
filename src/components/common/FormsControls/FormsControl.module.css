@@ -1,8 +1,7 @@
-
 .formControl.error textarea {
-    border: solid red 1px;
+  border: solid red 1px;
 }
 .formSummaryError {
-    border: solid red 1px;
-    padding: 5px;
+  border: solid red 1px;
+  padding: 5px;
 }

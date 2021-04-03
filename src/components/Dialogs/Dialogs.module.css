@@ -1,12 +1,12 @@
 .dialogs {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
+  display: grid;
+  grid-template-columns: 2fr 10fr;
 }
 
 .messages {
-    padding: 10px;
+  padding: 10px;
 }
 
 .message {
-    color: #1E8B9E;
+  color: #1e8b9e;
 }

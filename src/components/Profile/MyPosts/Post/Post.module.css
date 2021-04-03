@@ -1,16 +1,14 @@
 .item {
-    color: #47B4CC;
-
+  color: #47b4cc;
 }
 
 .item img {
-    object-fit: cover;
-    width: 65px;
-    height: 60px;
-    border-radius: 30px;
+  object-fit: cover;
+  width: 65px;
+  height: 60px;
+  border-radius: 30px;
 }
 
 span {
-    padding: 4px;
+  padding: 4px;
 }
-

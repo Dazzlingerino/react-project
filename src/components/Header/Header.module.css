@@ -1,24 +1,21 @@
 .grow {
-
-    grid-area: h;
-
+  grid-area: h;
 }
 
 .navlinkitem {
-    color: inherit;
-    text-transform: uppercase;
-    text-decoration: none;
+  color: inherit;
+  text-transform: uppercase;
+  text-decoration: none;
 }
 
 .navlinkitem:hover,
 .navlinkitem:active,
 .navlinkitem:visited {
-
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 /* Styling for when the link is active */
 .navlinkitem.active {
-    color: green;
+  color: green;
 }

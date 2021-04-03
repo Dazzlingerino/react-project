@@ -1,23 +1,19 @@
-
-
 .dialog img {
-    object-fit: cover;
-    height: 60px;
-    width: 50px;
-    border-radius: 30px;
+  object-fit: cover;
+  height: 60px;
+  width: 50px;
+  border-radius: 30px;
 }
-.dialog{
-    padding: 10px;
-
+.dialog {
+  padding: 10px;
 }
 
 .dialog a.active {
-    color: gold;
-    text-decoration: none;
+  color: gold;
+  text-decoration: none;
 }
 
 .dialog a {
-    color: #47B4CC;
-    text-decoration: none;
+  color: #47b4cc;
+  text-decoration: none;
 }
-
