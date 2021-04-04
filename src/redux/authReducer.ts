@@ -9,7 +9,7 @@ let initialState = {
   userId: null as number | null,
   email: null as string | null,
   login: null as string | null,
-  isAuth: false,
+  isAuth: true,
   isFetching: true,
   captchaUrl: null as string | null, // if null, then captcha is not required
 }

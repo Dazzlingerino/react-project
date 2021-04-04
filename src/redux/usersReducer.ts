@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { ResultCodesEnum } from '../api/api'
+import { APIResponseType, ResultCodesEnum } from '../api/api'
 import { UserType } from '../types/types'
 import { updateObjectInArray } from '../utils/objects-helper'
 import { BaseThunkType, InferActionsTypes } from './reduxStore'
@@ -108,13 +108,13 @@ export const requestUsers = (
 export const _followUnfollowFlow = async (
   dispatch: Dispatch<ActionsTypes>,
   userId: number,
-  apiMethod: any,
+  apiMethod: (userId: number) => Promise<APIResponseType>,
   actionCreator: (userId: number) => ActionsTypes
 ) => {
   dispatch(actions.toggleIsFollowingProgress(true, userId))
   let response = await apiMethod(userId)
 
-  if (response.data.resultCode === ResultCodesEnum.Success) {
+  if (response.resultCode === ResultCodesEnum.Success) {
     dispatch(actionCreator(userId))
   }
   dispatch(actions.toggleIsFollowingProgress(false, userId))
@@ -140,6 +140,6 @@ export const unfollow = (userId: number): ThunkType => async (dispatch) => {
 
 export default usersReducer
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type ActionsTypes = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsTypes>

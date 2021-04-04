@@ -1,10 +1,10 @@
-import React, { FC, ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import Preloader from '../../common/preloader/Preloader'
 import { ContactsType, ProfileType } from '../../../types/types'
 import userPhoto from '../../../assets/images/user.png'
-import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks'
 import ProfileDataFormReduxForm from './ProfileStatus/ProfileDataForm'
 import s from './ProfileInfo.module.css'
+
 type Props = {
   profile: ProfileType | null
   isOwner: boolean
