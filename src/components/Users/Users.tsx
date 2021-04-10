@@ -1,31 +1,45 @@
-import React, { FC } from 'react'
-import { UserType } from '../../types/types'
+import React, { FC, useEffect } from 'react'
 import Paginator from '../common/paginator/Paginator'
 import User from './User'
+import { FilterType, requestUsers } from '../../redux/usersReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getCurrentPage,
+  getFollowingInProgress,
+  getPageSize,
+  getTotalUsersCount,
+  getUsersFilter,
+  getUsersSuper,
+} from '../../redux/usersSelectors'
+import { UsersSearchForm } from './UsersSearchForm'
 
-type PropsType = {
-  totalUsersCount: number
-  pageSize: number
-  currentPage: number
-  onPageChanged: (pageNumber: number) => void
-  users: Array<UserType>
-  unfollow: (userId: number) => void
-  follow: (userId: number) => void
-  followingInProgress: Array<number>
-}
+type PropsType = {}
 
-const Users: FC<PropsType> = ({
-  totalUsersCount,
-  pageSize,
-  currentPage,
-  onPageChanged,
-  users,
-  unfollow,
-  follow,
-  followingInProgress,
-}) => {
+export const Users: FC<PropsType> = (props) => {
+  const totalUsersCount = useSelector(getTotalUsersCount)
+  const users = useSelector(getUsersSuper)
+  const pageSize = useSelector(getPageSize)
+  const currentPage = useSelector(getCurrentPage)
+  const followingInProgress = useSelector(getFollowingInProgress)
+  const filter = useSelector(getUsersFilter)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(requestUsers(currentPage, pageSize, filter))
+  },[])
+  const onFilterChanged = (filter: FilterType) => {
+    dispatch(requestUsers(1, pageSize, filter))
+  }
+  const onPageChanged = (pageNumber: number) => {
+    dispatch(requestUsers(pageNumber, pageSize, filter))
+  }
+
+
+  
   return (
     <div>
+      <UsersSearchForm onFilterChanged={onFilterChanged} />
+
       <Paginator
         currentPage={currentPage}
         onPageChanged={onPageChanged}
@@ -37,8 +51,6 @@ const Users: FC<PropsType> = ({
         {users.map((u) => (
           <User
             user={u}
-            unfollow={unfollow}
-            follow={follow}
             followingInProgress={followingInProgress}
             key={u.id}
           />
@@ -48,4 +60,3 @@ const Users: FC<PropsType> = ({
   )
 }
 
-export default Users

@@ -1,22 +1,23 @@
 import React, { FC, useState, useEffect, ChangeEvent } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getStatus } from '../../../../redux/profileSelectors'
+import { updateStatus } from '../../../../redux/profileReducer'
 
-type Props = {
-  status: string
-  updateStatus: (status: string) => void
-}
-const ProfileStatusWithHooks: FC<Props> = (props) => {
-  const [status, setStatus] = useState(props.status)
+const ProfileStatusWithHooks: FC = () => {
+  const [status, setStatus] = useState(useSelector(getStatus))
   const [editMode, setEditMode] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    setStatus(props.status)
-  }, [props.status])
+    setStatus(status)
+  }, [status])
+
   const activateEditMode = () => {
     setEditMode(true)
   }
   const deactivateEditMode = () => {
     setEditMode(false)
-    props.updateStatus(status)
+    dispatch(updateStatus(status))
   }
   const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
     setStatus(e.currentTarget.value)

@@ -4,33 +4,31 @@ import { ContactsType, ProfileType } from '../../../types/types'
 import userPhoto from '../../../assets/images/user.png'
 import ProfileDataFormReduxForm from './ProfileStatus/ProfileDataForm'
 import s from './ProfileInfo.module.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProfile } from '../../../redux/profileSelectors'
+import { savePhoto, saveProfile } from '../../../redux/profileReducer'
 
 type Props = {
-  profile: ProfileType | null
   isOwner: boolean
-  savePhoto: (file: File) => void
-  saveProfile: (profile: ProfileType) => void
 }
-const ProfileInfo: FC<Props> = ({
-  profile,
-  isOwner,
-  savePhoto,
-  saveProfile,
-}) => {
-  let [editMode, setEditMode] = useState(false)
+const ProfileInfo: FC<Props> = ({ isOwner }) => {
+  const profile = useSelector(getProfile)
+
+  const dispatch = useDispatch()
+
+  const [editMode, setEditMode] = useState(false)
+
   if (!profile) {
     return <Preloader />
   }
   const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      savePhoto(e.target.files[0])
+      dispatch(savePhoto(e.target.files[0]))
     }
   }
-  const onSubmit = (formData: ProfileType) => {
-    // @ts-ignore
-    saveProfile(formData).then(() => {
-      setEditMode(false)
-    })
+  const onSubmit = async (formData: ProfileType) => {
+    dispatch(saveProfile(formData))
+    await setEditMode(false)
   }
   return (
     <div>

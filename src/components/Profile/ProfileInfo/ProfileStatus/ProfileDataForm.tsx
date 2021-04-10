@@ -7,6 +7,8 @@ import {
   Textarea,
 } from '../../../common/FormsControls/FormsControls'
 import { InjectedFormProps, reduxForm } from 'redux-form'
+import {useSelector} from 'react-redux'
+import {getProfile} from '../../../../redux/profileSelectors'
 
 type PropsType = {
   profile: ProfileType
@@ -15,6 +17,7 @@ type ProfileTypeKeys = GetStringKeys<ProfileType>
 const ProfileDataForm: FC<
   InjectedFormProps<ProfileType, PropsType> & PropsType
 > = ({ handleSubmit, profile, error }) => {
+
   return (
     <form onSubmit={handleSubmit}>
       <div>

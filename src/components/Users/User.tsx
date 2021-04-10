@@ -3,20 +3,25 @@ import s from './users.module.css'
 import userPhoto from '../../assets/images/user.png'
 import { NavLink } from 'react-router-dom'
 import { UserType } from '../../types/types'
+import {useDispatch} from 'react-redux'
 
 type PropsType = {
   user: UserType
-  unfollow: (userId: number) => void
-  follow: (userId: number) => void
   followingInProgress: Array<number>
 }
 
 const User: FC<PropsType> = ({
   user,
-  unfollow,
-  follow,
+
   followingInProgress,
 }) => {
+  const dispatch = useDispatch()
+  const unfollow = (userId: number) => {
+    dispatch(unfollow(userId))
+  }
+  const follow = (userId: number) => {
+    dispatch(follow(userId))
+  }
   return (
     <span>
       <NavLink to={'/profile/' + user.id}>

@@ -1,39 +1,29 @@
-import React, { FC, Suspense } from 'react'
+import React, {FC} from 'react'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
-import {
-  BrowserRouter,
-  Redirect,
-  Route,
-  Switch,
-  withRouter,
-} from 'react-router-dom'
-
-import UsersContainer from './components/Users/UsersContainer'
+import {BrowserRouter, Redirect, Route, Switch, withRouter,} from 'react-router-dom'
+import {UsersPage} from './components/Users/UsersPage'
 import HeaderContainer from './components/Header/HeaderContainer'
-
-import Login from './components/Login/Login'
-import { connect, Provider } from 'react-redux'
-import { compose } from 'redux'
-import { initializeApp } from './redux/appReducer'
+import {LoginPage} from './components/Login/Login'
+import {connect, Provider} from 'react-redux'
+import {compose} from 'redux'
+import {initializeApp} from './redux/appReducer'
 import Preloader from './components/common/preloader/Preloader'
-import store, { AppStateType } from './redux/reduxStore'
-import { withSuspense } from './hoc/withSuspense'
+import store, {AppStateType} from './redux/reduxStore'
+import {withSuspense} from './hoc/withSuspense'
 
-// import DialogsContainer from './components/Dialogs/DialogsContainer';
 const DialogsContainer = React.lazy(
   () => import('./components/Dialogs/DialogsContainer')
 )
-// import ProfileContainer from './components/Profile/ProfileContainer';
-const ProfileContainer = React.lazy(
-  () => import('./components/Profile/ProfileContainer')
+const ProfilePage = React.lazy(
+  () => import('./components/Profile/ProfilePage')
 )
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
   initializeApp: () => void
 }
 const SuspendedDialogs = withSuspense(DialogsContainer)
-const SuspendedProfile = withSuspense(ProfileContainer)
+const SuspendedProfile = withSuspense(ProfilePage)
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
   catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
@@ -71,9 +61,9 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
               render={() => <SuspendedProfile />}
             />
 
-            <Route path="/users" render={() => <UsersContainer />} />
+            <Route path="/users" render={() => <UsersPage pageTitle={"Guys"} />} />
 
-            <Route path="/login" render={() => <Login />} />
+            <Route path="/login" render={() => <LoginPage />} />
 
             <Route path="*" render={() => <div>404 NOT FOUND</div>} />
           </Switch>
