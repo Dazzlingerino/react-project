@@ -1,21 +1,9 @@
-.app-wrapper {
-  /* background-color: teal; */
-  margin: 0 auto;
-
-  width: 1200px;
-  display: grid;
-  grid-template-areas:
-    'h h'
-    'n c';
-  grid-template-rows: 60px 1fr;
-  grid-template-columns: 1.1fr 6fr;
-  /* grid-gap: 10px; */
+#components-layout-demo-side .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.app-wrapper-content {
-  grid-area: c;
-  margin-left: 2.5px;
-  margin-top: 10px;
-  background-color: #f09041;
-  padding: 10px;
+.site-layout .site-layout-background {
+  background: #fff;
 }

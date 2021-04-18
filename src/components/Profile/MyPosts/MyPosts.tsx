@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import Post from './Post/Post'
-import style from './MyPosts.module.css'
+import s from './MyPosts.module.css'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { required } from '../../../utils/validators'
 import {
@@ -11,7 +11,9 @@ import {
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import AddBoxIcon from '@material-ui/icons/AddBox'
-import { MyPostsPropsType } from './MyPostsContainer'
+import { actions } from '../../../redux/profileReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { getWholeProfilePage } from '../../../redux/profileSelectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,9 +28,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
 }))
+
 type AddPostValuesTypeKeys = GetStringKeys<AddPostValuesType>
+
 type AddPostValuesType = { postMessageBody: string }
+
 type AddNewPostPropsType = {}
+
 const AddNewPostForm: FC<
   InjectedFormProps<AddPostValuesType, AddNewPostPropsType> &
     AddNewPostPropsType
@@ -51,7 +57,7 @@ const AddNewPostForm: FC<
           variant="contained"
           color="primary"
           className={classes.button}
-          endIcon={<AddBoxIcon>send</AddBoxIcon>}
+          endIcon={<AddBoxIcon />}
         >
           {' '}
           Add post
@@ -60,23 +66,26 @@ const AddNewPostForm: FC<
     </form>
   )
 }
+
 const AddNewPostFormWithReduxForm = reduxForm<
   AddPostValuesType,
   AddNewPostPropsType
 >({ form: 'profileAddNewPostForm' })(AddNewPostForm)
 
-const MyPosts: FC<MyPostsPropsType> = ({ ProfilePage, addPost }) => {
+const MyPosts: FC = () => {
+  const dispatch = useDispatch()
+  const ProfilePage = useSelector(getWholeProfilePage)
   let postElements = ProfilePage.posts.map((p) => (
     <Post key={p.id} message={p.message} likesCount={p.likeCount} />
   ))
-  let addNewPost = (values: AddPostValuesType) =>
-    addPost(values.postMessageBody)
+  let addNewPost = async (values: AddPostValuesType) =>
+    await dispatch(actions.addPost(values.postMessageBody))
 
   return (
-    <div className={style.postsBlock}>
+    <div className={s.postsBlock}>
       <h3>My posts</h3>
       <AddNewPostFormWithReduxForm onSubmit={addNewPost} />
-      <div className="posts">{postElements}</div>
+      <div className={s.posts}>{postElements}</div>
     </div>
   )
 }

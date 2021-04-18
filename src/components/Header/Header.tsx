@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -17,6 +17,10 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 import s from './Header.module.css'
 import { Button } from '@material-ui/core'
 import { NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getIsAuth } from '../../redux/authSelectors'
+import { getAuthUserData, logout } from '../../redux/authReducer'
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -86,20 +90,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type PropsType = {
-  login: string | null
-  isFetching: boolean
-  isAuth: boolean
-  logout: () => void
-}
-const Header: FC<PropsType> = ({ isAuth, logout, login }) => {
+const Header: FC = () => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [sider, setSider] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const dispatch = useDispatch()
+  const isAuth = useSelector(getIsAuth)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  useEffect( ()=> {
+    const getUserData = async () => {
+   await dispatch(getAuthUserData())}
+    getUserData()
+  },[])
 
+  const onLogOutClick = async () => {
+    await dispatch(logout)
+  }
   const handleProfileMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
@@ -111,6 +120,10 @@ const Header: FC<PropsType> = ({ isAuth, logout, login }) => {
   const handleMenuClose = () => {
     setAnchorEl(null)
     handleMobileMenuClose()
+  }
+
+  const onMenuIconClickHandler = () => {
+    setSider(null)
   }
 
   const handleMobileMenuOpen = (event: any) => {
@@ -174,18 +187,11 @@ const Header: FC<PropsType> = ({ isAuth, logout, login }) => {
     </Menu>
   )
 
+  
   return (
     <div className={s.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             Social Network
           </Typography>
@@ -240,7 +246,7 @@ const Header: FC<PropsType> = ({ isAuth, logout, login }) => {
             {isAuth ? (
               //@ts-ignore
               <Button
-                onClick={logout}
+                onClick={onLogOutClick}
                 color="inherit"
                 activeClassName={classes.activeLink}
               >
@@ -265,4 +271,5 @@ const Header: FC<PropsType> = ({ isAuth, logout, login }) => {
     </div>
   )
 }
-export default Header
+const HeaderWithMemoHOC = React.memo(Header)
+export default HeaderWithMemoHOC

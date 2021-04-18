@@ -6,7 +6,7 @@ import { getAuthorizedUserId } from '../../redux/authSelectors'
 import s from './Profile.module.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import ProfileStatusWithHooks from './ProfileInfo/ProfileStatus/ProfileStatusWithHooks'
-import MyPostsContainer from './MyPosts/MyPostsContainer'
+import MyPostsWithMemoHOC from './MyPosts/MyPosts'
 
 const ProfilePage: FC = () => {
   let { userId } = useParams<{ userId: string }>()
@@ -36,7 +36,7 @@ const ProfilePage: FC = () => {
     <div className={s.profile}>
       <ProfileInfo isOwner={!authorizedUserId} />
       <ProfileStatusWithHooks />
-      <MyPostsContainer />
+      <MyPostsWithMemoHOC />
     </div>
   )
 }

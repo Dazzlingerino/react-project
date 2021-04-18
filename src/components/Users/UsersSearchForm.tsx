@@ -1,6 +1,8 @@
-import {FilterType} from '../../redux/usersReducer'
+import { FilterType } from '../../redux/usersReducer'
 import React from 'react'
-import {Field, Form, Formik} from 'formik'
+import { Field, Form, Formik } from 'formik'
+import { useSelector } from 'react-redux'
+import { getUsersFilter } from '../../redux/usersSelectors'
 
 const userSearchFormValidate = (values: any) => {
   return {}
@@ -16,24 +18,26 @@ export const UsersSearchForm: React.FC<Prop> = ({ onFilterChanged }) => {
     onFilterChanged(values)
     setSubmitting(false)
   }
+  const filter = useSelector(getUsersFilter)
   return (
     <div>
       <Formik
-        initialValues={{ term: '', friend: null }}
+        enableReinitialize
+        initialValues={{ term: filter.term, friend: filter.friend }}
         validate={userSearchFormValidate}
         onSubmit={submit}
       >
         {({ isSubmitting }) => (
           <Form>
             <Field type="text" name="term" />
-            <button type="submit" disabled={isSubmitting}>
-              Find
-            </button>
             <Field name="friend" as="select">
               <option value="null">All</option>
               <option value="true">Only followed</option>
               <option value="false">Only unfollowed</option>
             </Field>
+            <button type="submit" disabled={isSubmitting}>
+              Find
+            </button>
           </Form>
         )}
       </Formik>

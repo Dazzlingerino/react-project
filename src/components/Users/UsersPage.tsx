@@ -9,7 +9,7 @@ type OwnPropsType = {
   pageTitle: string
 }
 
-export const UsersPage: FC<OwnPropsType> = (props) => {
+const UsersPage: FC<OwnPropsType> = (props) => {
   const isFetching = useSelector(getIsFetching)
 
   return (
@@ -20,3 +20,5 @@ export const UsersPage: FC<OwnPropsType> = (props) => {
     </>
   )
 }
+const UsersPageWithMemoHOC = React.memo(UsersPage)
+export default UsersPageWithMemoHOC
