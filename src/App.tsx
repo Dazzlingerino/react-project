@@ -1,9 +1,7 @@
 import React, { FC } from 'react'
 import './App.css'
-import Navbar from './components/Navbar/Navbar'
 import {
   BrowserRouter,
-  Link,
   Redirect,
   Route,
   Switch,
@@ -18,22 +16,8 @@ import Preloader from './components/common/preloader/Preloader'
 import store, { AppStateType } from './redux/reduxStore'
 import { withSuspense } from './hoc/withSuspense'
 import HeaderWithMemoHOC from './components/Header/Header'
-import { QueryParamProvider } from 'use-query-params'
 import 'antd/dist/antd.css'
-import { Avatar, Col, Layout, Menu, Row } from 'antd'
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined,
-  UsergroupAddOutlined,
-} from '@ant-design/icons'
-/*import style from './components/Navbar/Navbar.module.css'*/
-import Friends from './components/Navbar/Friends/Friends'
-
-import PeopleIcon from '@material-ui/icons/People'
-import ForumIcon from '@material-ui/icons/Forum'
-import AnnouncementIcon from '@material-ui/icons/Announcement'
-import MusicNoteIcon from '@material-ui/icons/MusicNote'
+import { Col, Layout, Row } from 'antd'
 import { AppSider } from './components/Header/Sider'
 
 const DialogsContainer = React.lazy(
@@ -49,7 +33,7 @@ const SuspendedProfile = withSuspense(ProfilePage)
 const { Header, Sider, Content } = Layout
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
-  catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
+  catchAllUnhandledErrors = () => {
     alert('Some error occured')
   }
 
@@ -114,15 +98,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
             </Content>
           </Layout>
         </Layout>
-      /* <div className="app-wrapper">
-         <QueryParamProvider ReactRouterRoute={Route}>
-           <HeaderWithMemoHOC />
-           <Navbar />
-           <div className="app-wrapper-content">
- 
-           </div>
-         </QueryParamProvider>
-       </div>*/
+
     )
   }
 }

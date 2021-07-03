@@ -8,10 +8,6 @@ export const getIsAuth = (state: AppStateType) => {
   return state.auth.isAuth
 }
 
-export const getLogin = (state: AppStateType) => {
-  return state.auth.login
-}
-
 export const getIsFetching = (state: AppStateType) => {
   return state.auth.isFetching
 }

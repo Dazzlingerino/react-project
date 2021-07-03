@@ -4,12 +4,14 @@ import { Field, Form, Formik } from 'formik'
 import { useSelector } from 'react-redux'
 import { getUsersFilter } from '../../redux/usersSelectors'
 
-const userSearchFormValidate = (values: any) => {
+const userSearchFormValidate = () => {
   return {}
 }
+
 type Prop = {
   onFilterChanged: (filter: FilterType) => void
 }
+
 export const UsersSearchForm: React.FC<Prop> = ({ onFilterChanged }) => {
   const submit = (
     values: FilterType,

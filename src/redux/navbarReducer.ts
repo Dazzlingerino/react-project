@@ -31,7 +31,7 @@ let navbarState: InitialStateType = {
     },
   ],
 }
-const navbarReducer = (state = navbarState, action: any) => {
+const navbarReducer = (state = navbarState) => {
   return state
 }
 

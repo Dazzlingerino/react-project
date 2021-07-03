@@ -31,7 +31,7 @@
 }
 
 .item a#friends {
-  font-family: 'Calibri Light';
+  font-family: 'Calibri Light', serif;
   font-size: 30px;
   margin-top: 40px;
 }

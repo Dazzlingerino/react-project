@@ -12,8 +12,6 @@ import {
   getUsersSuper,
 } from '../../redux/usersSelectors'
 import { UsersSearchForm } from './UsersSearchForm'
-import { useHistory } from 'react-router-dom'
-import * as querystring from 'querystring'
 import { NumberParam, StringParam, useQueryParams } from 'use-query-params'
 
 export const Users: FC = () => {
@@ -24,13 +22,14 @@ export const Users: FC = () => {
   const followingInProgress = useSelector(getFollowingInProgress)
   const filter = useSelector(getUsersFilter)
   const dispatch = useDispatch()
-  const history = useHistory()
+
   const [query, setQuery] = useQueryParams({
     term: StringParam,
     friend: StringParam,
     page: NumberParam,
   })
   const { term, friend, page } = query
+
   useEffect(() => {
     let actualPage = currentPage
     let actualFilter = filter
@@ -40,15 +39,15 @@ export const Users: FC = () => {
     if (!!friend)
       actualFilter = {
         ...actualFilter,
-        friend: friend === 'null' ? null : friend === 'true' ? true : false,
+        friend: friend === 'null' ? null : friend === 'true',
       }
 
     dispatch(requestUsers(actualPage, pageSize, actualFilter))
-  }, [])
+  }, [currentPage, dispatch, filter, friend, page, pageSize, term])
 
   useEffect(() => {
     setQuery({ term, friend, page }, 'push')
-  }, [filter, currentPage])
+  }, [filter, currentPage, setQuery, term, friend, page])
 
   const onFilterChanged = (filter: FilterType) => {
     dispatch(requestUsers(1, pageSize, filter))

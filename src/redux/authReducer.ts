@@ -1,9 +1,15 @@
 import { ResultCodesEnum, ResultCodeWithCaptchaEnum } from '../api/api'
 import { FormAction, stopSubmit } from 'redux-form'
-import { BaseThunkType, InferActionsTypes } from './reduxStore'
-import { Dispatch } from 'redux'
+import { BaseThunkType } from './reduxStore'
 import { authAPI } from '../api/auth-api'
 import { securityAPI } from '../api/security-api'
+import { SetAuthUserDataPayload } from '../types/apiTypes'
+import {
+  ActionsTypes,
+  GET_CAPTCHA_URL_SUCCESS,
+  SET_USER_DATA,
+  TOGGLE_IS_FETCHING,
+} from '../types/typesForReducers'
 
 let initialState = {
   userId: null as number | null,
@@ -19,63 +25,54 @@ const authReducer = (
   action: ActionsTypes
 ): InitialStateType => {
   switch (action.type) {
-    case 'SN/AUTH/SET_USER_DATA':
+    case SET_USER_DATA:
       return {
         ...state,
         ...action.payload,
       }
-    case 'SN/AUTH/GET_CAPTCHA_URL_SUCCESS':
+    case GET_CAPTCHA_URL_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        captchaUrl:action.payload,
       }
-    case 'SN/AUTH/TOGGLE_IS_FETCHING':
+    case TOGGLE_IS_FETCHING:
       return {
         ...state,
-        isFetching: action.isFetching,
+        isFetching:action.payload,
       }
     default:
       return state
   }
 }
 
-export const actions = {
-  setAuthUserData: (
-    userId: number | null,
-    email: string | null,
-    login: string | null,
-    isAuth: boolean
-  ) =>
-    ({
-      type: 'SN/AUTH/SET_USER_DATA',
-      payload: { userId, login, email, isAuth },
-    } as const),
+const setAuthUserData = (payload: SetAuthUserDataPayload): ActionsTypes => ({
+  type: SET_USER_DATA,
+  payload,
+})
 
-  getCaptchaUrlSuccess: (captchaUrl: string) =>
-    ({
-      type: 'SN/AUTH/GET_CAPTCHA_URL_SUCCESS',
-      payload: { captchaUrl },
-    } as const),
+const getCaptchaUrlSuccess = (payload:string): ActionsTypes => ({
+  type: GET_CAPTCHA_URL_SUCCESS,
+  payload,
+})
 
-  toggleIsFetching: (isFetching: boolean) =>
-    ({
-      type: 'SN/AUTH/TOGGLE_IS_FETCHING',
-      isFetching,
-    } as const),
-}
+const toggleIsFetching = (payload:boolean): ActionsTypes => ({
+  type: TOGGLE_IS_FETCHING,
+  payload,
+})
 
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
-  dispatch(actions.toggleIsFetching(true))
+  dispatch(toggleIsFetching(true))
   let meData = await authAPI.me()
   if (meData.resultCode === ResultCodesEnum.Success) {
-    dispatch(actions.toggleIsFetching(false))
+    dispatch(toggleIsFetching(false))
     let { id, login, email } = meData.data
-    dispatch(actions.setAuthUserData(id, login, email, true))
+    dispatch(setAuthUserData({userId:id, login, email, isAuth:true}))
   }
 }
+
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   let data = await securityAPI.getCaptchaUrl()
-  dispatch(actions.getCaptchaUrlSuccess(data.url))
+  dispatch(getCaptchaUrlSuccess(data.url))
 }
 
 export const login = (
@@ -85,6 +82,7 @@ export const login = (
   captcha: string
 ): ThunkType => async (dispatch) => {
   let loginData = await authAPI.login(email, password, rememberMe, captcha)
+  console.log(loginData)
   if (loginData.resultCode === ResultCodesEnum.Success) {
     await dispatch(getAuthUserData())
   } else {
@@ -98,14 +96,17 @@ export const login = (
   }
 }
 
-export const logout = (): ThunkType => async (dispatch: DispatchType) => {
+export const logout = (): any => async (dispatch: any) => {
+  console.log('ho')
   let response = await authAPI.logout()
+  console.log(response)
   if (response.data.resultCode === ResultCodesEnum.Success) {
-    dispatch(actions.setAuthUserData(null, null, null, false))
+    dispatch(
+      setAuthUserData({ userId: null, email: null, login: null, isAuth: false })
+    )
   }
 }
+
 export default authReducer
 export type InitialStateType = typeof initialState
-type ActionsTypes = InferActionsTypes<typeof actions>
-type DispatchType = Dispatch<ActionsTypes>
 type ThunkType = BaseThunkType<ActionsTypes | FormAction>

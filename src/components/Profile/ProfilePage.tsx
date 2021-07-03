@@ -13,14 +13,9 @@ const ProfilePage: FC = () => {
   const history = useHistory()
   const authorizedUserId = useSelector(getAuthorizedUserId)
   const dispatch = useDispatch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const refreshProfile = () => {
     let convertedUserId: number | null = +userId
-    if (!convertedUserId) {
-      convertedUserId = authorizedUserId
-      if (!convertedUserId) {
-        history.push('/login')
-      }
-    }
     if (!convertedUserId) {
       console.error('ID must be in URI params or in state(authorizedUserId)')
     } else {
@@ -30,7 +25,7 @@ const ProfilePage: FC = () => {
   }
   useEffect(() => {
     refreshProfile()
-  }, [userId])
+  }, [refreshProfile, userId])
 
   return (
     <div className={s.profile}>

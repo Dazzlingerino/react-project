@@ -16,6 +16,7 @@ import { getCaptchaUrl, getIsAuth } from '../../redux/authSelectors'
 type LoginFormOwnPropsType = {
   captchaUrl: string | null
 }
+
 const LoginForm: FC<
   InjectedFormProps<LoginFormValuesType, LoginFormOwnPropsType> &
     LoginFormOwnPropsType
@@ -75,7 +76,9 @@ type LoginFormValuesTypeKeys = GetStringKeys<LoginFormValuesType>
 
 const LoginPage: FC = () => {
   const captchaUrl = useSelector(getCaptchaUrl)
+  console.log(captchaUrl)
   const isAuth = useSelector(getIsAuth)
+  console.log(isAuth)
   const dispatch = useDispatch()
   const onSubmit = (formData: LoginFormValuesType) => {
     dispatch(
@@ -87,9 +90,8 @@ const LoginPage: FC = () => {
       )
     )
   }
-  if (isAuth) {
-    debugger
-    return <Redirect to={`/profile`}/>
+  if (!!isAuth) {
+    return <Redirect to='/profile'/>
   } else {
     return (
       <div>
@@ -99,5 +101,6 @@ const LoginPage: FC = () => {
     )
   }
 }
+
 const LoginPageWithMemoHOC = React.memo(LoginPage)
 export default LoginPageWithMemoHOC

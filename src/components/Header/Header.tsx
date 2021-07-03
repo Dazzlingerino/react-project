@@ -8,7 +8,6 @@ import InputBase from '@material-ui/core/InputBase'
 import Badge from '@material-ui/core/Badge'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
@@ -93,22 +92,19 @@ const useStyles = makeStyles((theme) => ({
 const Header: FC = () => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const [sider, setSider] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const dispatch = useDispatch()
   const isAuth = useSelector(getIsAuth)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
-  useEffect( ()=> {
-    const getUserData = async () => {
-   await dispatch(getAuthUserData())}
-    getUserData()
-  },[])
 
-  const onLogOutClick = async () => {
-    await dispatch(logout)
-  }
+  useEffect( ()=> {
+    const getUserData = () => {
+    dispatch(getAuthUserData())}
+    getUserData()
+  },[dispatch])
+
   const handleProfileMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
@@ -122,9 +118,6 @@ const Header: FC = () => {
     handleMobileMenuClose()
   }
 
-  const onMenuIconClickHandler = () => {
-    setSider(null)
-  }
 
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget)
@@ -243,12 +236,11 @@ const Header: FC = () => {
             </IconButton>
           </div>
           <div className={classes.sectionDesktop}>
+            {console.log(isAuth)}
             {isAuth ? (
-              //@ts-ignore
               <Button
-                onClick={onLogOutClick}
+                onClick={() => dispatch(logout)}
                 color="inherit"
-                activeClassName={classes.activeLink}
               >
                 Log out
               </Button>
